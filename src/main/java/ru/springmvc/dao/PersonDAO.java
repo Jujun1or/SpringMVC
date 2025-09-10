@@ -6,6 +6,7 @@ import ru.springmvc.models.Person;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class PersonDAO {
@@ -26,5 +27,18 @@ public class PersonDAO {
         return people.stream().filter(p -> p.getId() == id).findAny().orElse(null);
     }
 
+    public void save(Person person){
+        person.setId(++PEOPLE_COUNT);
+        people.add(person);
+    }
+
+    public void update(int id, Person updatedPerson){
+        Person personToBeUpdated = show(id);
+        personToBeUpdated.setName(updatedPerson.getName());
+    }
+
+    public void delete(int id){
+        people.removeIf(p -> p.getId() == id);
+    }
 
 }
